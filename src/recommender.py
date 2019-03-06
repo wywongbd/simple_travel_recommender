@@ -1,6 +1,6 @@
 from InstagramAPI import InstagramAPI
-from datetime import datetime
-import time
+from datetime import datetime, timedelta
+from src.url_decoder import InstagramPost
 
 class SimpleRecommender(object):
     def __init__(self, user_id, username, password):
@@ -35,4 +35,8 @@ class SimpleRecommender(object):
         }
 
     def suggest(self, days=1):
-        pass
+        # assumption: n_posts per day from one user <= 10
+        start_dt = datetime.now().date() - timedelta(days=1)
+
+        for key in self.followings_dict:
+            pass
