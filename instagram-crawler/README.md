@@ -1,6 +1,6 @@
 # Instagram Crawler [![Build Status](https://travis-ci.org/huaying/instagram-crawler.svg?branch=master)](https://travis-ci.org/huaying/instagram-crawler)
   
-*All codes in this repository are taken from ![this](https://github.com/huaying/instagram-crawler) repository.* 
+*All codes in this directory are taken from [this!](https://github.com/huaying/instagram-crawler) repository.* 
 
 Below is what you can do with this program:
 - Get Instagram posts/profile/hashtag data without using Instagram API. `crawler.py`
