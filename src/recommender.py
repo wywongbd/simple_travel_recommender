@@ -1,7 +1,6 @@
 from InstagramAPI import InstagramAPI
 from datetime import datetime, timedelta
 from url_decoder import InstagramPost
-from crawler import get_posts_by_user
 from utils import get_hashtags_from_str
 
 import time
