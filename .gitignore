@@ -1,6 +1,3 @@
-# Output folder of results
-examples/output
-
 .vscode/
 .ipynb_checkpoints
 __pycache__
