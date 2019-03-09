@@ -16,6 +16,7 @@ class Cluster(object):
 			self.tags = None
 			self._setup()
 		else:
+			# if filename provided, load cluster from provided path
 			dict_ls = load_dict_ls(filename)
 			d = eval(dict_ls[0])
 			self.hashtag = d['hashtag']
@@ -24,12 +25,14 @@ class Cluster(object):
 			self.tags = d['tags']
 
 	def _setup(self):
+		# this function constructs the cluster
 		self.tags = self._get_related_tags(self.hashtag)
 		tags_ls = [self._get_related_tags(tag) for tag in self.tags]
 		tags_ls = [tags_set.intersection(self.tags) for tags_set in tags_ls]
 		self.tags = set.union(*tags_ls)
 
 	def _get_related_tags(self, hashtag):
+		# this function collects all tags that co-occur frequently with the given hashtag
 		posts_ls = get_posts_by_hashtag(hashtag, self.sample_size)
 		tags = set()
 		count_dict = {}
@@ -41,6 +44,7 @@ class Cluster(object):
 				count_dict[tag] = count_dict.get(tag, 0) + 1
 				N += 1
 
+		# select only tags that occur frequently enough 
 		for i, (tag, count) in enumerate(count_dict.items()):
 			if count / N >= self.min_coocurrence_probablity:
 				tags.add(tag)

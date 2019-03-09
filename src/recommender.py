@@ -9,13 +9,21 @@ import json
 
 class SimpleRecommender(object):
     def __init__(self, user_id, username, password):
+        # user_id, username and password in Instagram
         self.user_id = user_id
         self.username = username
         self.password = password
+
+        # InstagramAPI object
         self.api = None
+
+        # A dictionary with user_id as key, user_profile (dictionary) as value
         self.followings_dict = None
+
+        # A dictionary with post_id as key, dictionary as value
         self.followings_posts_dict = None
 
+        # login using username and password
         self._login()
         self._fetch_followings()
         
@@ -73,10 +81,13 @@ class SimpleRecommender(object):
             return []
 
     def _get_posts_from_hashtag(self, hashtag):
+        # queries for posts from hashtag feed (this goes through the InstagramAPI, NOT crawling)
+        # so it is relatively fast
         self.api.getHashtagFeed(hashtag)
         return self.api.LastJson['items']
 
     def _get_related_tags(self, hashtag, min_coocurrence_probablity=0.01):
+        # this function collects all tags that co-occur frequently with the given hashtag
         posts_ls = self._get_posts_from_hashtag(hashtag)
         tags = set()
         count_dict = {}
@@ -106,6 +117,7 @@ class SimpleRecommender(object):
         return self.api.getTotalUserFeed(user_id, unixtime)
 
     def suggest(self, locations_ls, lookback_ndays=1, min_coocurrence_probablity=(0.01, 0.01)):
+        # this function provides suggestion using dynamically computed topic clusters
         if self.followings_posts_dict is None:
             self._fetch_followings_posts(lookback_ndays)
 
@@ -133,6 +145,7 @@ class SimpleRecommender(object):
         return location_count_dict
 
     def suggest_with_clusters(self, travel_cluster, location_cluster_dict, lookback_ndays, n_intersections=1):
+        # this function provides suggestion using pre-computed topic clusters
         if self.followings_posts_dict is None:
             self._fetch_followings_posts(lookback_ndays)
 
